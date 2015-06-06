@@ -24,7 +24,7 @@ var TMP007 = {
 };
 
 var buf = new Buffer(2);
-buf.writeUIntLE(TMP007.CFG_MODEON | TMP007.CFG_TRANSC | TMP007.CFG_16SAMPLE, 0, 2);
+buf.writeUIntLE(TMP007.CFG_MODEON | TMP007.CFG_TRANSC | TMP007.CFG_8SAMPLE, 0, 2);
 var defaultConfig = buf.readUIntBE(0, 2);
 
 buf = new Buffer(2)
@@ -39,7 +39,7 @@ function setupTMP007(err) {
 	if (err) throw err;
 	i2c1.writeWord(TMP007.I2CADDR, TMP007.CONFIG, defaultConfig, aok);
 	i2c1.writeWord(TMP007.I2CADDR, TMP007.STATMASK, defaultStat, aok);
-	setInterval(readTemp, 4100);
+	setInterval(readTemp, 2000);
 }
 
 function readTemp() {
