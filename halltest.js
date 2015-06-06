@@ -9,17 +9,22 @@ pins.hall = new Gpio(4, "in", "both");
 
 var recording = false;
 var trips = 0;
+var lasttrip;
 
 pins.hall.watch(function(err, value) {
 	if (err) throw err;
 	if (value) {
-		pins.green.write(1);
+	//	pins.green.write(1);
 	} else {
 if (recording) {
 	trips++;
-	console.log("tripped " + trips + " times");
+	var now = new Date().getTime();
+	var diff = now - lasttrip;
+	lasttrip = now;
+	var rpm = 60000 / diff;
+	console.log("tripped " + trips + " times, " + rpm + "rpm");
 }
-		pins.green.write(0);
+	//	pins.green.write(0);
 	}
 });
 
@@ -30,6 +35,7 @@ console.log("start recording");
 pins.red.write(1);
 		trips = 0;
 		recording = true;
+		lastrip = new Date().getTime();
 	} else {
 console.log("stopped recording");
 pins.red.write(0);
